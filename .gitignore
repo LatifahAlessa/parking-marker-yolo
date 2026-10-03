@@ -5,7 +5,15 @@ runs/
 prepared_data/
 input_dataset/*
 !input_dataset/README.txt
+
+# Ignore model weights by default
 models/**/*.pt
 models/**/*.onnx
+
+# Keep final runtime models
+!models/vehicle/yolo11n-seg.pt
+!models/boundary/best.pt
+!models/cat_eye/best.pt
+
 results.json
 .DS_Store
