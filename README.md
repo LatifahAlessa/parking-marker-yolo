@@ -604,30 +604,79 @@ parking_marker_yolo/
 |   |-- api.py
 |   |-- pipeline.py
 |   |-- aggregation.py
+|   |-- core/
+|   |   |-- grouping.py
+|   |   |-- schemas.py
+|   |   `-- splitting.py
 |   `-- vision/
 |       |-- geometry.py
 |       `-- yolo_models.py
 |
+|-- prepared_data/
+|   |-- boundary/
+|   |   |-- images/
+|   |   |   |-- train/
+|   |   |   |-- val/
+|   |   |   `-- test/
+|   |   |-- labels/
+|   |   |   |-- train/
+|   |   |   |-- val/
+|   |   |   `-- test/
+|   |   `-- boundary.yaml
+|   |
+|   |-- cat_eye/
+|   |   |-- images/
+|   |   |   |-- train/
+|   |   |   |-- val/
+|   |   |   `-- test/
+|   |   |-- labels/
+|   |   |   |-- train/
+|   |   |   |-- val/
+|   |   |   `-- test/
+|   |   `-- cat_eye.yaml
+|   |
+|   |-- split_manifest.csv
+|   `-- duplicates.csv
+|
 |-- models/
 |   |-- vehicle/
+|   |   `-- yolo11n-seg.pt
 |   |-- boundary/
+|   |   `-- best.pt
 |   `-- cat_eye/
+|       `-- best.pt
 |
 |-- scripts/
 |   |-- first_run.py
 |   |-- download_vehicle_model.py
+|   |-- predict_folder.py
 |   |-- train_boundary.py
 |   |-- train_boundary_exp2.py
 |   |-- train_boundary_exp3_parkscope.py
 |   `-- train_cat_eyes.py
 |
+|-- metadata/
+|   |-- split_manifest.csv
+|   `-- duplicates.csv
+|
+|-- THIRD_PARTY_LICENSES/
+|   `-- ParkScope_LICENSE
+|
+|-- input_dataset/
+|   `-- README.txt
+|
 |-- web/
 |   `-- index.html
 |
 |-- tests/
+|   |-- test_aggregation.py
+|   `-- test_grouping_and_split.py
+|
 |-- Dockerfile
 |-- docker-compose.yml
 |-- requirements.txt
+|-- requirements-dev.txt
+|-- ANNOTATION_GUIDE.md
 `-- README.md
 ```
 
@@ -716,7 +765,7 @@ The ParkScope model was not used directly for the final parking decisions. I fin
 
 ---
 
-## Annotation Process
+## 28. Annotation Process
 
 I manually annotated the dataset using **CVAT (Computer Vision Annotation Tool)**.
 
