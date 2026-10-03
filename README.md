@@ -70,7 +70,7 @@ I used a group-aware split rather than randomly splitting individual images.
 The target was approximately 70% training, 15% validation, and 15% test.
 
 The exact percentages differ slightly because I never split images belonging to the same vehicle across different partitions.
-git push
+
 After selecting the final split, I kept it fixed across all boundary-model experiments so the experiments could be compared fairly.
 
 ---
