@@ -70,17 +70,7 @@ I used a group-aware split rather than randomly splitting individual images.
 The target was approximately 70% training, 15% validation, and 15% test.
 
 The exact percentages differ slightly because I never split images belonging to the same vehicle across different partitions.
-
-### Why I used group-wise splitting
-
-Images belonging to the same vehicle can be very similar because they show the same parking situation from nearby viewpoints.
-
-If one view appeared in training and another view of the same vehicle appeared in validation or test, the evaluation could be artificially high.
-
-I therefore kept every vehicle group completely inside one split.
-
-This reduces data leakage and provides a more realistic evaluation.
-
+git push
 After selecting the final split, I kept it fixed across all boundary-model experiments so the experiments could be compared fairly.
 
 ---
@@ -723,3 +713,29 @@ https://github.com/Nanasaki-Ai/ParkScope
 The original ParkScope license is included with the submission under `THIRD_PARTY_LICENSES/ParkScope_LICENSE`.
 
 The ParkScope model was not used directly for the final parking decisions. I fine-tuned the model on my own boundary classes, and the final application combines the resulting detections with my deterministic geometry and multi-view aggregation logic.
+
+---
+
+## Annotation Process
+
+I manually annotated the dataset using **CVAT (Computer Vision Annotation Tool)**.
+
+For the parking-boundary segmentation task, I labeled the following classes:
+
+```text
+white_line
+allowed_curb
+forbidden_curb
+hatched_area
+```
+
+For the cat-eye detection task, I labeled:
+
+```text
+cat_eye
+```
+
+I exported the annotations in YOLO-compatible format and used them to create the final train, validation, and test datasets.
+
+I kept the same group-aware split for both the boundary and cat-eye tasks so that images of the same vehicle did not appear in different dataset partitions.
+
