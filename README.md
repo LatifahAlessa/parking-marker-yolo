@@ -723,3 +723,29 @@ https://github.com/Nanasaki-Ai/ParkScope
 The original ParkScope license is included with the submission under `THIRD_PARTY_LICENSES/ParkScope_LICENSE`.
 
 The ParkScope model was not used directly for the final parking decisions. I fine-tuned the model on my own boundary classes, and the final application combines the resulting detections with my deterministic geometry and multi-view aggregation logic.
+
+---
+
+## Annotation Process
+
+I manually annotated the dataset using **CVAT (Computer Vision Annotation Tool)**.
+
+For the parking-boundary segmentation task, I labeled the following classes:
+
+```text
+white_line
+allowed_curb
+forbidden_curb
+hatched_area
+```
+
+For the cat-eye detection task, I labeled:
+
+```text
+cat_eye
+```
+
+I exported the annotations in YOLO-compatible format and used them to create the final train, validation, and test datasets.
+
+I kept the same group-aware split for both the boundary and cat-eye tasks so that images of the same vehicle did not appear in different dataset partitions.
+
