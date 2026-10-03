@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>YOLO Parking Compliance</title>
+  <style>
+    body{font-family:Inter,system-ui,-apple-system,sans-serif;margin:0;background:#f5f7fb;color:#162033}
+    main{max-width:1180px;margin:36px auto;padding:0 18px}.card{background:white;border:1px solid #dce3ee;border-radius:18px;padding:24px;margin:18px 0;box-shadow:0 4px 18px #1c2b4310}
+    .drop{border:2px dashed #9aacbf;border-radius:14px;padding:36px;text-align:center}.btn{background:#172a46;color:white;border:0;border-radius:10px;padding:12px 18px;font-weight:700;cursor:pointer}
+    .status{padding:8px 12px;border-radius:999px;font-weight:800;display:inline-block}.positive,.regular{background:#dff7e9;color:#116f41}.negative,.irregular{background:#fee2e2;color:#b42318}.unclear,.undetermined{background:#fff3cd;color:#8a6200}
+    .qgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.q{border:1px solid #dce3ee;border-radius:13px;padding:16px}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-top:1px solid #e5eaf1;text-align:left;vertical-align:top}.muted{color:#627087}.error{color:#b42318;white-space:pre-wrap}@media(max-width:850px){.qgrid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body><main>
+  <h1>YOLO Parking Compliance Detector</h1>
+  <p class="muted">Upload all views. Grouping is inferred from each filename's final numeric view token.</p>
+  <div class="card">
+    <div id="modelStatus" class="muted">Checking model files…</div>
+    <div class="drop"><input id="files" type="file" accept="image/*" multiple><br><br><button class="btn" onclick="analyze()">Analyze selected images</button></div>
+    <p id="msg" class="muted"></p><div id="err" class="error"></div>
+  </div>
+  <div id="results"></div>
+</main>
+<script>
+async function check(){const r=await fetch('/health');const j=await r.json();let m=j.models;document.getElementById('modelStatus').textContent=`Vehicle: ${m.vehicle_ready?'ready':'missing'} | Boundary: ${m.boundary_ready?'ready':'missing'} | Cat-eye: ${m.cat_eye_ready?'ready':'missing'}`}
+function badge(x){return `<span class="status ${x}">${x.toUpperCase()}</span>`}
+function qbox(title,q){return `<div class="q"><b>${title}</b><br>${badge(q.status)}<br><b>Confidence:</b> ${Math.round(q.confidence*100)}%<br><span class="muted">${q.reason}</span><br><small>Evidence: ${q.evidence_image||'-'}</small></div>`}
+function render(data){let out=`<p class="muted">Received ${data.received_images}; processed ${data.unique_images} unique image(s).</p>`;for(const g of data.groups){out+=`<div class="card"><div style="display:flex;justify-content:space-between;gap:12px"><h2>${g.group_id}</h2>${badge(g.final_decision)}</div><p class="muted">${g.final_reason}</p><div class="qgrid">${qbox('Q1 — Boundary visible?',g.q1)}${qbox('Q2 — Correct position?',g.q2)}${qbox('Q3 — Cat eyes present?',g.q3)}</div><details><summary>Per-image evidence (${g.images.length})</summary><table><tr><th>Image</th><th>Q1</th><th>Q2</th><th>Q3</th></tr>${g.images.map(i=>`<tr><td>${i.filename}</td><td>${i.q1.status}<br><small>${i.q1.reason}</small></td><td>${i.q2.status}<br><small>${i.q2.reason}</small></td><td>${i.q3.status}<br><small>${i.q3.reason}</small></td></tr>`).join('')}</table></details></div>`}document.getElementById('results').innerHTML=out}
+async function analyze(){const fs=document.getElementById('files').files;if(!fs.length)return;document.getElementById('msg').textContent='Processing…';document.getElementById('err').textContent='';const fd=new FormData();for(const f of fs)fd.append('files',f);try{const r=await fetch('/analyze',{method:'POST',body:fd});const j=await r.json();if(!r.ok)throw new Error(j.detail||JSON.stringify(j));render(j)}catch(e){document.getElementById('err').textContent=e.message}finally{document.getElementById('msg').textContent=''}}
+check();
+</script></body></html>

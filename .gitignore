@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+runs/
+prepared_data/
+input_dataset/*
+!input_dataset/README.txt
+models/**/*.pt
+models/**/*.onnx
+results.json
+.DS_Store
