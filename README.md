@@ -503,7 +503,9 @@ This allows the application to run locally and offline once its Python dependenc
 
 ---
 
-## 19. Installation
+## 19. Local Installation and Run (Without Docker)
+
+These steps are only required when running the application directly with Python. They are **not required when using Docker**.
 
 Python 3.11 is recommended.
 
@@ -519,6 +521,24 @@ Install the dependencies:
 ```bash
 python -m pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+Start the FastAPI application:
+
+```bash
+uvicorn app.api:app --host 0.0.0.0 --port 8001
+```
+
+Open:
+
+```text
+http://localhost:8001
+```
+
+Health check:
+
+```text
+http://localhost:8001/health
 ```
 
 ---
@@ -547,29 +567,9 @@ contains the Experiment 3 model.
 
 ---
 
-## 21. Run Locally
+## 21. Docker Deployment
 
-Start the FastAPI application:
-
-```bash
-uvicorn app.api:app --host 0.0.0.0 --port 8001
-```
-
-Open:
-
-```text
-http://localhost:8001
-```
-
-Health check:
-
-```text
-http://localhost:8001/health
-```
-
----
-
-## 22. Docker Deployment
+Docker handles Python and package installation inside the container, so no local virtual environment or `pip install` step is required.
 
 Build and start the Docker application:
 
@@ -595,7 +595,7 @@ I verified the application successfully inside Docker using CPU inference.
 
 ---
 
-## 23. Project Structure
+## 22. Project Structure
 
 ```text
 parking_marker_yolo/
@@ -682,7 +682,7 @@ parking_marker_yolo/
 
 ---
 
-## 24. Reproducing the Experiments
+## 23. Reproducing the Experiments
 
 ### Experiment 1
 
@@ -716,7 +716,7 @@ The deployed application still performs inference on CPU.
 
 ---
 
-## 25. Final Model Selection
+## 24. Final Model Selection
 
 I selected Experiment 3 because it achieved:
 
@@ -733,7 +733,7 @@ For these reasons, Experiment 3 became the final boundary model.
 
 ---
 
-## 26. Summary
+## 25. Summary
 
 The final system combines:
 
@@ -752,7 +752,7 @@ This provides a more interpretable result and allows the application to expose t
 
 ---
 
-## 27. Third-Party Attribution
+## 26. Third-Party Attribution
 
 Experiment 3 used pretrained weights from the ParkScope project as parking-domain initialization before fine-tuning on my parking-boundary dataset.
 
@@ -765,7 +765,7 @@ The ParkScope model was not used directly for the final parking decisions. I fin
 
 ---
 
-## 28. Annotation Process
+## 27. Annotation Process
 
 I manually annotated the dataset using **CVAT (Computer Vision Annotation Tool)**.
 
