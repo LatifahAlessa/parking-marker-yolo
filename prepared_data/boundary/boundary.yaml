@@ -1,0 +1,9 @@
+path: /Users/latifahaleisa/Desktop/parking_marker_yolo/prepared_data/boundary
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: white_line
+  1: allowed_curb
+  2: forbidden_curb
+  3: hatched_area

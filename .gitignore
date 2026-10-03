@@ -2,7 +2,6 @@
 __pycache__/
 .pytest_cache/
 runs/
-prepared_data/
 input_dataset/*
 !input_dataset/README.txt
 
@@ -17,3 +16,7 @@ models/**/*.onnx
 
 results.json
 .DS_Store
+
+# Generated training data / YOLO cache
+prepared_data/boundary_exp2/
+prepared_data/**/*.cache

@@ -1,0 +1,6 @@
+path: /Users/latifahaleisa/Desktop/parking_marker_yolo/prepared_data/cat_eye
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: cat_eye
